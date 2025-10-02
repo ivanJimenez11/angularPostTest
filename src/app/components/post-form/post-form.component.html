@@ -1,0 +1,72 @@
+<div class="post-form-container">
+  <div class="navigation">
+    <a routerLink="/" class="btn btn-secondary">← Back to Posts</a>
+  </div>
+
+  <div class="form-wrapper">
+    <h1>{{ isEditMode ? 'Edit Post' : 'Create New Post' }}</h1>
+
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="post-form">
+      <!-- User Selection -->
+      <div class="form-group">
+        <label for="userId">Author *</label>
+        <select
+          id="userId"
+          formControlName="userId"
+          class="form-control"
+          [class.error]="userId?.touched && userId?.errors"
+        >
+          <option value="">Select an author</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.name }} ({{ user.username }})
+          </option>
+        </select>
+        <div class="error-message" *ngIf="getFieldError('userId')">
+          {{ getFieldError('userId') }}
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="form-group">
+        <label for="title">Title *</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="form-control"
+          [class.error]="title?.touched && title?.errors"
+          placeholder="Enter post title"
+        />
+        <div class="error-message" *ngIf="getFieldError('title')">
+          {{ getFieldError('title') }}
+        </div>
+        <div class="field-info">{{ title?.value?.length || 0 }}/100 characters</div>
+      </div>
+
+      <!-- Body -->
+      <div class="form-group">
+        <label for="body">Content *</label>
+        <textarea
+          id="body"
+          formControlName="body"
+          class="form-control textarea"
+          [class.error]="body?.touched && body?.errors"
+          placeholder="Enter post content"
+          rows="8"
+        ></textarea>
+        <div class="error-message" *ngIf="getFieldError('body')">
+          {{ getFieldError('body') }}
+        </div>
+        <div class="field-info">{{ body?.value?.length || 0 }}/500 characters</div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" routerLink="/">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">
+          {{ isEditMode ? 'Update Post' : 'Create Post' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

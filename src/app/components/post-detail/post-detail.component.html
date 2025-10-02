@@ -1,0 +1,41 @@
+<div class="post-detail-container" *ngIf="post; else loading">
+  <div class="navigation">
+    <a routerLink="/" class="btn btn-secondary">← Back to Posts</a>
+  </div>
+
+  <article class="post-detail">
+    <header class="post-header">
+      <h1 class="post-title">{{ post.title }}</h1>
+      <div class="post-meta" *ngIf="user">
+        <div class="author-info">
+          <h3>Author Information</h3>
+          <p><strong>Name:</strong> {{ user.name }}</p>
+          <p><strong>Username:</strong> {{ user.username }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Phone:</strong> {{ user.phone }}</p>
+          <p><strong>Website:</strong> {{ user.website }}</p>
+          <div class="company-info" *ngIf="user.company">
+            <h4>Company</h4>
+            <p><strong>Name:</strong> {{ user.company.name }}</p>
+            <p><strong>Catchphrase:</strong> {{ user.company.catchPhrase }}</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="post-content">
+      <p>{{ post.body }}</p>
+    </div>
+
+    <div class="post-actions">
+      <a [routerLink]="['/edit', post.id]" class="btn btn-warning">Edit Post</a>
+      <button (click)="onDeletePost()" class="btn btn-danger">Delete Post</button>
+    </div>
+  </article>
+</div>
+
+<ng-template #loading>
+  <div class="loading">
+    <p>Loading post...</p>
+  </div>
+</ng-template>
